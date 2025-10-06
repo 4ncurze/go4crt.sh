@@ -1,6 +1,6 @@
 # go4crt.sh
 
-go4crt.sh is a small, blazing-fast subdomain enumeration utility that pulls certificate transparency records from crt.sh and turns them into a clean, deduplicated list of subdomains—ready for live checking, screenshotting, fuzzing, or any next-step recon. I built it to give pentesters and bug bounty hunters a minimal, reliable tool that does one thing very well: extract subdomains from public TLS certificates and save them to a file so you can plug the results straight into your workflow.
+`go4crt.sh` is a small, blazing-fast subdomain enumeration utility that pulls certificate transparency records from crt.sh and turns them into a clean, deduplicated list of subdomains—ready for live checking, screenshotting, fuzzing, or any next-step recon. I built it to give pentesters and bug bounty hunters a minimal, reliable tool that does one thing very well: extract subdomains from public TLS certificates and save them to a file so you can plug the results straight into your workflow.
 
 ---
 
