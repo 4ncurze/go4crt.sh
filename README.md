@@ -4,4 +4,5 @@ go4crt.sh is a lightweight and fast CLI tool written in Go that queries crt.sh t
 
 
 installation 
+
 go install github.com/4ncurze/go4crt.sh@latest
