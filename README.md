@@ -1,8 +1,19 @@
 # go4crt.sh
-go4crt.sh is a lightweight and fast CLI tool written in Go that queries crt.sh to discover subdomains for a given domain. It helps security researchers, penetration testers, and bug bounty hunters to quickly gather subdomains with minimal setup.
 
+`go4crt.sh` is a fast and lightweight subdomain finder that extracts data from [crt.sh](https://crt.sh).  
+It helps penetration testers and bug bounty hunters enumerate subdomains quickly and save results directly to a file.
 
+---
 
-installation 
+## ✨ Features
+- 🔍 Fetch subdomains from crt.sh Certificate Transparency logs  
+- 📂 Save results in a text file  
+- ⚡ Simple and fast (pure Go, no dependencies)  
+- 🎨 Nice spinner + progress messages for better UX  
 
+---
+
+## 📦 Installation
+
+```bash
 go install github.com/4ncurze/go4crt.sh@latest
