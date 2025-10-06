@@ -9,7 +9,6 @@ It helps penetration testers and bug bounty hunters enumerate subdomains quickly
 - 🔍 Fetch subdomains from crt.sh Certificate Transparency logs  
 - 📂 Save results in a text file  
 - ⚡ Simple and fast (pure Go, no dependencies)  
-- 🎨 Nice spinner + progress messages for better UX  
 
 ---
 
@@ -17,3 +16,11 @@ It helps penetration testers and bug bounty hunters enumerate subdomains quickly
 
 ```bash
 go install github.com/4ncurze/go4crt.sh@latest
+
+```
+
+## 🚀 Usage
+
+```bash
+go4crt.sh -d example.com -o subdomains.txt
+```
