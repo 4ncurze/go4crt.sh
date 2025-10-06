@@ -13,24 +13,37 @@ import (
 	"time"
 )
 
-// Struct for crt.sh JSON
+// Structure for go4crt.sh JSON
 type CrtshResult struct {
 	NameValue string `json:"name_value"`
 }
 
-// Interactive spinner
-func spinner(stopChan chan struct{}) {
+// Spinner with rotating steps
+func fancySpinner(stopChan chan struct{}) {
 	frames := []string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
+	steps := []string{
+		"🔍 Searching crt.sh logs",
+		"📡 Gathering subdomains",
+		"📂 Cleaning duplicates",
+	}
+
+	frameIndex := 0
+	stepIndex := 0
+	ticker := time.NewTicker(220 * time.Millisecond)
+	stepTicker := time.NewTicker(2 * time.Second) // change message every 2s
+
 	for {
-		for _, frame := range frames {
-			select {
-			case <-stopChan:
-				fmt.Print("\r") // clear spinner
-				return
-			default:
-				fmt.Printf("\r%s Scanning... please wait", frame)
-				time.Sleep(120 * time.Millisecond)
-			}
+		select {
+		case <-stopChan:
+			fmt.Print("\r\033[K") // clear line
+			ticker.Stop()
+			stepTicker.Stop()
+			return
+		case <-ticker.C:
+			fmt.Printf("\r%s %s...", frames[frameIndex], steps[stepIndex])
+			frameIndex = (frameIndex + 1) % len(frames)
+		case <-stepTicker.C:
+			stepIndex = (stepIndex + 1) % len(steps)
 		}
 	}
 }
@@ -38,16 +51,16 @@ func spinner(stopChan chan struct{}) {
 func usage() {
 	fmt.Println(`
 ╔════════════════════════════════════════════╗
-║         CRT.SH Subdomain Finder Tool       ║
+║      go4crt.sh Subdomain Finder Tool       ║
 ║                 by @4n_curze...            ║
 ╚════════════════════════════════════════════╝
 
 Usage:
-  crtsh -d <domain> -o <output_file>
-  crtsh <domain> -o <output_file>
+  go4crt.sh -d <domain> -o <output_file>
+  go4crt.sh <domain> -o <output_file>
 
 Example:
-  go run main.go -d hackerone.com -o /home/kali/Desktop/hacker.txt
+  go4crt.sh -d example.com -o /home/kali/Desktop/hacker.txt
 
 Flags:
   -d    Target domain name (e.g., example.com)
@@ -86,7 +99,7 @@ func main() {
 
 	// Spinner setup
 	stopChan := make(chan struct{})
-	go spinner(stopChan)
+	go fancySpinner(stopChan)
 
 	crtURL := fmt.Sprintf("https://crt.sh/?q=%%25.%s&output=json", domain)
 	resp, err := http.Get(crtURL)
@@ -104,7 +117,7 @@ func main() {
 
 	// Stop spinner
 	close(stopChan)
-	fmt.Print("\r") // clear spinner output
+	fmt.Print("\r\033[K") // clear spinner line
 
 	var crtshResults []CrtshResult
 	if err := json.Unmarshal(body, &crtshResults); err != nil {
