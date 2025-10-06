@@ -60,7 +60,7 @@ Usage:
   go4crt.sh <domain> -o <output_file>
 
 Example:
-  go4crt.sh -d example.com -o /home/kali/Desktop/hacker.txt
+  go4crt.sh -d example.com -o /home/kali/Desktop/target.txt
 
 Flags:
   -d    Target domain name (e.g., example.com)
