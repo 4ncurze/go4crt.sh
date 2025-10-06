@@ -56,11 +56,10 @@ func usage() {
 ╚════════════════════════════════════════════╝
 
 Usage:
-  go4crt.sh -d <domain> -o <output_file>
-  go4crt.sh <domain> -o <output_file>
+  go4crt.sh -d <domain> -o <output_file_Path_with_filename>
 
 Example:
-  go4crt.sh -d example.com -o /home/kali/Desktop/target.txt
+  go4crt.sh -d example.com -o /home/kali/target.txt
 
 Flags:
   -d    Target domain name (e.g., example.com)
