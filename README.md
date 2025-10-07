@@ -23,3 +23,11 @@ go install github.com/4ncurze/go4crt.sh@latest
 ```bash
 go4crt.sh -d example.com -o subdomains.txt
 ```
+
+## 🎬 Credits 
+``` 
+Thanks to @TaurusOmar from whom i got an idea and applied it 
+:) Thanks https://crt.sh/
+Thanks to Yash Pawar for retesting and supporting me 
+Thanks to Sujan and jheel for being there :) ````
+
