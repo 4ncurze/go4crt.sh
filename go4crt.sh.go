@@ -13,12 +13,12 @@ import (
 	"time"
 )
 
-// Structure for go4crt.sh JSON
+// 🌸 Each domain has a story — here begins our quest to unveil them.
 type CrtshResult struct {
 	NameValue string `json:"name_value"`
 }
 
-// Spinner with rotating steps
+// 🌟 A little spinner of life — turning time into motion, progress into joy.
 func fancySpinner(stopChan chan struct{}) {
 	frames := []string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
 	steps := []string{
@@ -48,6 +48,7 @@ func fancySpinner(stopChan chan struct{}) {
 	}
 }
 
+// 📖 A friendly guide for our traveler — how to use the map of go4crt.sh.
 func usage() {
 	fmt.Println(`
 ╔════════════════════════════════════════════╗
@@ -79,27 +80,29 @@ func main() {
  ▞▀▐▌ ▝▀▘    ▀  ▝▀▀  ▀     ▀▀   ▀   ▀▀▀ ▝▘ ▝▘
  ▜█▛▘                                        	`+ "\n\n")
 
-	// Flags
+	// 🎯 Collect the clues before we begin our exploration.
 	flagDomain := flag.String("d", "", "Target domain (e.g., example.com)")
 	flagOutput := flag.String("o", "", "Output file path (required)")
 	flag.Usage = usage
 	flag.Parse()
 
-	// Support domain from -d or positional first arg
+	// 🌐 Allow both flags and direct input — flexibility for every explorer.
 	domain := *flagDomain
 	if domain == "" && flag.NArg() > 0 {
 		domain = flag.Arg(0)
 	}
 
+	// 🚨 Don’t start the journey without your map and destination.
 	if domain == "" || *flagOutput == "" {
 		flag.Usage()
 		os.Exit(1)
 	}
 
-	// Spinner setup
+	// 🌀 Set the spinner in motion — the journey begins.
 	stopChan := make(chan struct{})
 	go fancySpinner(stopChan)
 
+	// 🌍 Dive into crt.sh — uncover hidden domains beneath the surface.
 	crtURL := fmt.Sprintf("https://crt.sh/?q=%%25.%s&output=json", domain)
 	resp, err := http.Get(crtURL)
 	if err != nil {
@@ -114,15 +117,17 @@ func main() {
 		log.Fatalf("\n❌ Error reading response: %v", err)
 	}
 
-	// Stop spinner
+	// 🛑 Time to rest — our spinner’s dance is complete.
 	close(stopChan)
 	fmt.Print("\r\033[K") // clear spinner line
-
+	
+	// 📦 Transforming the raw data into meaningful insights.
 	var crtshResults []CrtshResult
 	if err := json.Unmarshal(body, &crtshResults); err != nil {
 		log.Fatalf("❌ Error parsing JSON: %v", err)
 	}
 
+	// 💎 Extract unique gems (subdomains) from the trove.
 	subdomains := make(map[string]struct{})
 	for _, result := range crtshResults {
 		for _, line := range strings.Split(result.NameValue, "\n") {
@@ -134,16 +139,19 @@ func main() {
 		}
 	}
 
+	// 🌿 Sort and organize — clarity brings peace.
 	uniqueSubdomains := make([]string, 0, len(subdomains))
 	for sub := range subdomains {
 		uniqueSubdomains = append(uniqueSubdomains, sub)
 	}
 	sort.Strings(uniqueSubdomains)
 
+	// 🖋️ Seal the findings in a scroll — safe for future discoveries.
 	if err := ioutil.WriteFile(*flagOutput, []byte(strings.Join(uniqueSubdomains, "\n")), 0644); err != nil {
 		log.Fatalf("❌ Error writing file: %v", err)
 	}
 
+	// 🎉 The exploration concludes — knowledge earned, not just found.
 	fmt.Printf("✅ Scan completed successfully!\n")
 	fmt.Printf("📁 Results saved in: %s\n", *flagOutput)
 	fmt.Printf("🔢 Total subdomains found: %d\n", len(uniqueSubdomains))
